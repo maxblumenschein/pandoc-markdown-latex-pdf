@@ -7,7 +7,10 @@ pdf-print:
 pdf-ereader:
 	./build.sh pdf_ereader
 
-all: pdf-print pdf-ereader
+pdf-linear:
+	./build.sh pdf_linear
+
+all: pdf-print pdf-ereader pdf_linear
 
 clean:
 	./build.sh clean

@@ -38,6 +38,20 @@ pdf_ereader() {
         --include-in-header="layouts/ereader.tex"
 }
 
+pdf_linear() {
+    mkdir "${BUILDDIR}" -p
+    echo "Creating PDF linear output"
+    pandoc "${CONTENTDIR}/${FILENAME}.md" \
+        --resource-path="${CONTENTDIR}" \
+        --citeproc \
+        --csl="${ASSETSDIR}/citation-style.csl" \
+        --from="markdown+tex_math_single_backslash+tex_math_dollars+raw_tex" \
+        --to="latex" \
+        --output="${BUILDDIR}/output_linear.pdf" \
+        --pdf-engine="lualatex" \
+        --include-in-header="layouts/linear.latex"
+}
+
 clean() {
     rm -r "${BUILDDIR}"
 }
