@@ -33,12 +33,26 @@ jobs:
             --output=output_ereader.pdf
             --pdf-engine=xelatex
             --include-in-header=layouts/ereader.tex
+      - name: linear output
+        uses: docker://pandoc/latex:2.12
+        with:
+          args: >-
+            content/index.md
+            --resource-path=content
+            --citeproc
+            --csl=assets/citation-style.csl
+            --from=markdown+tex_math_single_backslash+tex_math_dollars+raw_tex
+            --to=latex
+            --output=output_linear.pdf
+            --pdf-engine=lualatex
+            --include-in-header=layouts/linear.latex
       - uses: actions/upload-artifact@v2
         with:
           name: build
           path: |
             output_print.pdf
             output_ereader.pdf
+            output_linear.pdf
       - name: release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
@@ -46,5 +60,6 @@ jobs:
           files: |
             output_print.pdf
             output_ereader.pdf
+            output_linear.pdf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
